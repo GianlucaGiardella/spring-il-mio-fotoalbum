@@ -57,15 +57,20 @@ public class PhotoController {
     @PostMapping("/create")
     public String store(
             @Valid @ModelAttribute("photo") PhotoDto formPhoto,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
     ) {
         if (bindingResult.hasErrors()) {
             return "photos/form";
         }
 
         try {
-            Photo newBook = photoService.createPhoto(formPhoto);
-            return "redirect:/photos/show/" + newBook.getId();
+            Photo newPhoto = photoService.createPhoto(formPhoto);
+            redirectAttributes.addFlashAttribute(
+                    "message",
+                    "Photo: " + newPhoto.getTitle() + " created"
+            );
+            return "redirect:/photos/show/" + newPhoto.getId();
 
         } catch (IOException e) {
             bindingResult.addError(new FieldError(
@@ -109,7 +114,7 @@ public class PhotoController {
             Photo editedPhoto = photoService.editPhoto(formPhoto);
             redirectAttributes.addFlashAttribute(
                     "message",
-                    "Photo: " + editedPhoto.getTitle() + " deleted"
+                    "Photo: " + editedPhoto.getTitle() + " edited"
             );
             return "redirect:/photos/show/" + editedPhoto.getId();
         } catch (RuntimeException e) {
@@ -138,7 +143,7 @@ public class PhotoController {
             photoService.deletePhoto(id);
             redirectAttributes.addFlashAttribute(
                     "message",
-                    "Photo: " + deletedPhoto.getTitle() + " edited"
+                    "Photo: " + deletedPhoto.getTitle() + " delited"
             );
             return "redirect:/photos";
         } catch (RuntimeException e) {

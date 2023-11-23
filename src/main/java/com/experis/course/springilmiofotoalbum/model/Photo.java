@@ -25,7 +25,7 @@ public class Photo {
     @Column(length = 16000000)
     @JsonIgnore
     private byte[] image;
-    private boolean visible = true;
+    private boolean visible;
     @CreationTimestamp
     private LocalDateTime created_at;
 

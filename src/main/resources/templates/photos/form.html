@@ -27,6 +27,13 @@
                      th:insert="fragments/components :: formField('text', 'title', 'Title')">
                 </div>
 
+                <div class="col-4"
+                >
+                    <label for="visible" class="form-label">Visibility: </label>
+                    <input type="checkbox" id="visible" th:checked="*{visible}" th:field="*{visible}"
+                           name="visible">
+                </div>
+
                 <div class="col-12 d-flex align-items-center">
                     <img th:if="${isEdit}" width="100" th:src="@{/files/image/{photoId}(photoId = *{id})}" alt="image">
                     <div th:insert="fragments/components :: formField('file', 'imageFile', 'Image')"></div>

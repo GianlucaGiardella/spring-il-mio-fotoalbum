@@ -11,13 +11,26 @@
 <div class="card m-5">
     <div class="card-body">
 
+        <div th:replace="fragments/components :: message"></div>
+
         <div class="container" th:object="${photo}">
             <a th:href="@{/photos}" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>
 
             <section>
-                <h1 th:text="*{title}"></h1>
-                <img class="img-fluid" th:src="@{/files/image/{photoId}(photoId = *{id})}" alt="image">
-                <p th:text="*{description}"></p>
+                <div>
+                    <h1 th:text="*{title}"></h1>
+                </div>
+                <div>
+                    <img class="img-fluid" th:src="@{/files/image/{photoId}(photoId = *{id})}" alt="image">
+                </div>
+                <div>
+                    <h4>Description: </h4>
+                    <p th:text="*{description}"></p>
+                </div>
+                <div>
+                    <h4>Visibility: </h4>
+                    <p th:text="*{visible}"></p>
+                </div>
             </section>
         </div>
     </div>

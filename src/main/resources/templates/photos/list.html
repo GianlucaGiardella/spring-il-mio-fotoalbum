@@ -40,6 +40,7 @@
                         <th>Id</th>
                         <th>Name</th>
                         <th>Description</th>
+                        <th>Visible</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -47,8 +48,8 @@
                     <tr th:each="photo : ${photoList}" th:object="${photo}">
                         <td th:text="*{id}" class="fs-4"></td>
                         <td th:text="*{title}" class="fs-6"></td>
-                        </td>
                         <td th:text="*{description}" class="fs-6"></td>
+                        <td th:text="*{visible ? 'yes' : 'no'}" class="fs-6"></td>
                         <td>
                             <div class="d-flex align-items-center gap-2">
                                 <a class="btn btn-primary" th:href="@{/photos/show/{id}(id = *{id})}" title="details"><i
