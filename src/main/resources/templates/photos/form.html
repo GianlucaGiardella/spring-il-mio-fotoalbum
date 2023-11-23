@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:with="isEdit = ${photo.id != null}"
+>
+<head th:insert="fragments/resources :: headResources(${isEdit ? 'Edit Photo' : 'Create Photo'})"></head>
+<body data-bs-theme="dark">
+
+<nav th:replace="fragments/navbar :: topNavbar(${isEdit ? 'edit photo' : 'create photo'})"></nav>
+
+<div class="card m-5">
+    <div class="card-body">
+
+        <div class="container">
+            <a th:href="@{/photos}" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>
+            <h1 th:text="${isEdit ? 'Edit Photo' : 'Create Photo'}"></h1>
+
+            <form
+                    th:with="actionUrl = ${isEdit ? '/photos/edit/' + photo.id : '/photos/create'}"
+                    class="row g-3"
+                    method="post"
+                    th:action="@{${actionUrl}}"
+                    th:object="${photo}"
+                    enctype="multipart/form-data"
+            >
+                <div class="col-8"
+                     th:insert="fragments/components :: formField('text', 'title', 'Title')">
+                </div>
+
+                <div class="col-12 d-flex align-items-center">
+                    <img th:if="${isEdit}" width="100" th:src="@{/files/image/{photoId}(photoId = *{id})}" alt="image">
+                    <div th:insert="fragments/components :: formField('file', 'imageFile', 'Image')"></div>
+                </div>
+
+                <div class="col-12"
+                     th:insert="fragments/components :: formField('text', 'description', 'Description')">
+                </div>
+
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-danger" type="reset">Reset</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
