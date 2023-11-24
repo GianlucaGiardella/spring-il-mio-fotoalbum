@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "photos")
@@ -14,11 +15,11 @@ public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank(message = "Title must be non blank")
-    @Size(min = 3, max = 50)
+    @NotBlank(message = "Title must not be blank")
+    @Size(min = 3, max = 50, message = "Title length must be between 3 and 50 characters")
     private String title;
-    @NotBlank(message = "Description must be non blank")
-    @Size(min = 3)
+    @NotBlank(message = "Description must not be blank")
+    @Size(min = 3, message = "Description length must be at least of 3 characters")
     @Lob
     private String description;
     @Lob
@@ -26,6 +27,8 @@ public class Photo {
     @JsonIgnore
     private byte[] image;
     private boolean visible;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Category> categories;
     @CreationTimestamp
     private LocalDateTime created_at;
 
@@ -67,6 +70,14 @@ public class Photo {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public LocalDateTime getCreated_at() {

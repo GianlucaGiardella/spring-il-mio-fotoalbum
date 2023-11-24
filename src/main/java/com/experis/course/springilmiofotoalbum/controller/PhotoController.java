@@ -2,6 +2,7 @@ package com.experis.course.springilmiofotoalbum.controller;
 
 import com.experis.course.springilmiofotoalbum.dto.PhotoDto;
 import com.experis.course.springilmiofotoalbum.model.Photo;
+import com.experis.course.springilmiofotoalbum.service.CategoryService;
 import com.experis.course.springilmiofotoalbum.service.PhotoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +24,15 @@ public class PhotoController {
     @Autowired
     PhotoService photoService;
 
+    @Autowired
+    CategoryService categoryService;
+
     @GetMapping
     public String index(
             @RequestParam Optional<String> search,
             Model model
     ) {
-        model.addAttribute(
-                "photoList",
-                photoService.getPhotoList(search)
-        );
+        model.addAttribute("photoList", photoService.getPhotoList(search));
         return "photos/list";
     }
 
@@ -51,6 +52,7 @@ public class PhotoController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("photo", new PhotoDto());
+        model.addAttribute("categoryList", categoryService.getAll());
         return "photos/form";
     }
 
@@ -58,9 +60,11 @@ public class PhotoController {
     public String store(
             @Valid @ModelAttribute("photo") PhotoDto formPhoto,
             BindingResult bindingResult,
-            RedirectAttributes redirectAttributes
+            RedirectAttributes redirectAttributes,
+            Model model
     ) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("categoryList", categoryService.getAll());
             return "photos/form";
         }
 
@@ -93,6 +97,7 @@ public class PhotoController {
     ) {
         try {
             model.addAttribute("photo", photoService.getPhotoDtoById(id));
+            model.addAttribute("categoryList", categoryService.getAll());
             return "photos/form";
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -104,9 +109,11 @@ public class PhotoController {
             @PathVariable Integer id,
             @Valid @ModelAttribute PhotoDto formPhoto,
             BindingResult bindingResult,
-            RedirectAttributes redirectAttributes
+            RedirectAttributes redirectAttributes,
+            Model model
     ) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("categoryList", categoryService.getAll());
             return "photos/form";
         }
 

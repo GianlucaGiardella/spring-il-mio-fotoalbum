@@ -44,6 +44,7 @@ public class PhotoService {
         photo.setTitle(photoDto.getTitle());
         photo.setDescription(photoDto.getDescription());
         photo.setVisible(photoDto.isVisible());
+        photo.setCategories(photoDto.getCategories());
 
         if (photoDto.getImageFile() != null && !photoDto.getImageFile().isEmpty()) {
             byte[] bytes = photoDto.getImageFile().getBytes();
@@ -58,6 +59,7 @@ public class PhotoService {
         photoDto.setTitle(photo.getTitle());
         photoDto.setDescription(photo.getDescription());
         photoDto.setVisible(photo.isVisible());
+        photoDto.setCategories(photo.getCategories());
         return photoDto;
     }
 
@@ -69,13 +71,14 @@ public class PhotoService {
         return photoRepository.save(photo);
     }
 
-    public Photo editPhoto(PhotoDto photoDto) throws IOException {
+    public Photo editPhoto(PhotoDto photoDto) throws IOException, RuntimeException {
         Photo photo = convertDtoToPhoto(photoDto);
 
         Photo dbPhoto = getPhotoById(photoDto.getId());
         dbPhoto.setTitle(photo.getTitle());
         dbPhoto.setDescription(photo.getDescription());
         dbPhoto.setVisible(photo.isVisible());
+        dbPhoto.setCategories(photo.getCategories());
 
         if (photo.getImage() != null && photo.getImage().length > 0) {
             dbPhoto.setImage(photo.getImage());

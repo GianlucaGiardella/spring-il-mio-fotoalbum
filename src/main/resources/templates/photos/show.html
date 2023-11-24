@@ -32,6 +32,13 @@
                     <p th:text="*{visible}"></p>
                 </div>
             </section>
+
+            <section th:if="*{categories.size() > 0}">
+                <h5>Categories: </h5>
+                <ul>
+                    <li th:each="category : *{categories}" th:text="${category.name}"></li>
+                </ul>
+            </section>
         </div>
     </div>
 

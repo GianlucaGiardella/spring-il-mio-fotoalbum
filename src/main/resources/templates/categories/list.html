@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org"
 >
-<head th:insert="fragments/resources :: headResources('Photo List')"></head>
+<head th:insert="fragments/resources :: headResources('Category List')"></head>
 <body data-bs-theme="dark">
 
-<nav th:replace="fragments/navbar :: topNavbar('photo list')"></nav>
+<nav th:replace="fragments/navbar :: topNavbar('category list')"></nav>
 
 <div class="card m-5">
     <div class="card-body">
@@ -16,21 +15,20 @@
         <div class="container">
             <div class="row g-3">
                 <div class="row g-3 align-items-center">
-                    <h1 class="col-6 m-0">Photo List</h1>
+                    <h1 class="col-6 m-0">Category List</h1>
 
-                    <a th:href="@{/photos/create}"
+                    <a th:href="@{/categories/create}"
                        class="col-2 btn btn-primary mt-0"
-                       sec:authorize="hasAuthority('ADMIN')"
-                    >Add Photo</a>
+                    >Add Category</a>
 
-                    <form th:action="@{/photos}"
+                    <form th:action="@{/categories}"
                           method="GET"
                           class="col-4 mt-0"
                     >
                         <div class="input-group">
                             <input
                                     type="text"
-                                    placeholder="Search photo by name"
+                                    placeholder="Search category by title"
                                     class="form-control" name="search"
                                     th:value="${param.search}"
                             >
@@ -41,39 +39,30 @@
 
                 <hr>
 
-                <table th:if="${photoList.size() > 0}" class="table">
+                <table th:if="${categoryList.size() > 0}" class="table">
                     <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Visible</th>
+                        <th>Name</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="photo : ${photoList}" th:object="${photo}">
+                    <tr th:each="category : ${categoryList}" th:object="${category}">
                         <td th:text="*{id}" class="fs-4"></td>
-                        <td th:text="*{title}" class="fs-6"></td>
-                        <td th:text="*{description}" class="fs-6"></td>
-                        <td th:text="*{visible ? 'yes' : 'no'}" class="fs-6"></td>
+                        <td th:text="*{name}" class="fs-6"></td>
                         <td>
                             <div class="d-flex align-items-center gap-2">
-                                <a class="btn btn-primary" th:href="@{/photos/show/{id}(id = *{id})}" title="details"><i
-                                        class="fa-solid fa-eye"></i></i></a>
-
                                 <a
                                         class="btn btn-primary"
-                                        th:href="@{/photos/edit/{id}(id = *{id})}"
-                                        sec:authorize="hasAuthority('ADMIN')"
-                                        title="Photo Edit"
+                                        th:href="@{/categories/edit/{id}(id = *{id})}"
+                                        title="Category Edit"
                                 ><i
                                         class="fa-solid fa-pen-to-square"></i></a>
 
                                 <form
                                         method="post"
-                                        th:action="@{/photos/delete/{id}(id = *{id})}"
-                                        sec:authorize="hasAuthority('ADMIN')"
+                                        th:action="@{/categories/delete/{id}(id = *{id})}"
                                         onsubmit="return confirm('Are you sure ?')"
                                 >
                                     <button type="submit" class="btn btn-primary">
@@ -86,7 +75,7 @@
                     </tbody>
                 </table>
 
-                <h2 th:unless="${photoList.size() > 0}">No photos available</h2>
+                <h2 th:unless="${categoryList.size() > 0}">No categories available</h2>
             </div>
         </div>
     </div>

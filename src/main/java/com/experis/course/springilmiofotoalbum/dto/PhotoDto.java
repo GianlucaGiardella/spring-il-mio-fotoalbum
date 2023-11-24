@@ -1,9 +1,12 @@
 package com.experis.course.springilmiofotoalbum.dto;
 
+import com.experis.course.springilmiofotoalbum.model.Category;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public class PhotoDto {
     private Integer id;
@@ -16,6 +19,7 @@ public class PhotoDto {
     private String description;
     private MultipartFile imageFile;
     private boolean visible = true;
+    private List<Category> categories;
 
     public Integer getId() {
         return id;
@@ -55,5 +59,13 @@ public class PhotoDto {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 }
