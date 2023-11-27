@@ -23,6 +23,14 @@ public class PhotoService {
         }
     }
 
+    public List<Photo> getVisiblePhotoList(Optional<String> search) {
+        if (search.isPresent()) {
+            return photoRepository.findByVisibleTrueAndTitleContainingIgnoreCase(search.get());
+        } else {
+            return photoRepository.findByVisibleTrue();
+        }
+    }
+
     public Photo getPhotoById(Integer id) throws RuntimeException {
         Optional<Photo> result = photoRepository.findById(id);
 

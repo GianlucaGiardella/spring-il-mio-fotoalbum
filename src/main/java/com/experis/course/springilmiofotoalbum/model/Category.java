@@ -18,9 +18,6 @@ public class Category {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "categories")
-    private List<Photo> photos;
-
     public Integer getId() {
         return id;
     }
@@ -35,13 +32,5 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Photo> getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(List<Photo> photos) {
-        this.photos = photos;
     }
 }
