@@ -1,6 +1,5 @@
 package com.experis.course.springilmiofotoalbum.model;
 
-import com.experis.course.springilmiofotoalbum.model.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -81,5 +81,12 @@ public class User {
 
     public void setRegisteredAt(LocalDateTime registeredAt) {
         this.registeredAt = registeredAt;
+    }
+
+    public String getRolesToString() {
+        return this.roles
+                .stream()
+                .map(role -> role.getName())
+                .collect(Collectors.joining(" - "));
     }
 }
